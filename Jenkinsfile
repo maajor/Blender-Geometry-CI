@@ -2,7 +2,7 @@ pipeline {
     agent {
         docker {
             args '--help'
-            customWorkspace '/d/Repo/Blender-LOD-CI:/media/'
+            customWorkspace '${WORKSPACE}:/media/'
             image 'ikester/blender-autobuild'
         }
     }
