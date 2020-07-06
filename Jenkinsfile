@@ -1,10 +1,9 @@
 pipeline {
-    agent { docker 'ikester/blender-autobuild' }
-    stages {
-        stage('build') {
-            steps {
-                sh 'python --version'
-            }
+    agent {
+        docker {
+            args '--help'
+            customWorkspace '${WORKSPACE}:/media/'
+            image 'ikester/blender-autobuild'
         }
     }
 }
