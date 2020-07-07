@@ -1,9 +1,10 @@
 pipeline {
-    agent {
-        docker {
-            args '--help'
-            customWorkspace '${WORKSPACE}:/media/'
-            image 'ikester/blender-autobuild'
+    agent any
+    stages {
+        stage('Build') {
+            steps ('test') {
+                powershell(". '.\\build.ps1'") 
+            }
         }
     }
 }
