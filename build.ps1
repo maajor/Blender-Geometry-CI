@@ -1,1 +1,0 @@
-docker run --rm -v /d/Repo/CI-Test:/media/ nytimes/blender blender -b -P media/log_gen.py -- --manifest 'geomanifest.json'

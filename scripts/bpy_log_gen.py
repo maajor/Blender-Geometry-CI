@@ -2,6 +2,7 @@ import bpy
 import bmesh
 import math
 import json
+import argparse
 
 def get_args():
     parser = argparse.ArgumentParser()
@@ -13,6 +14,7 @@ def get_args():
      
     # add parser rules
     parser.add_argument('-m', '--manifest', help="manifest of mesh to process")
+    parser.add_argument('-d', '--directory', help="relative directory")
     parsed_script_args, _ = parser.parse_known_args(script_args)
     return parsed_script_args
 
@@ -45,6 +47,7 @@ def delete_scene_objects():
     bpy.ops.object.delete()
     
 def create_lod(filename, lodlevel):
+    delete_scene_objects()
     bpy.ops.import_scene.fbx(filepath=filename)
     objs = bpy.context.scene.objects
     for ob in objs: 
@@ -52,16 +55,15 @@ def create_lod(filename, lodlevel):
             continue
         if "_LOD" in ob.name:
             continue
-        create_lods(ob, lodlevel)
+        create_lod_meshs(ob, lodlevel)
     bpy.ops.export_scene.fbx(filepath=filename)
-    delete_scene_objects()
         
-def create_lod_from_manifest(manifest_path):
-    with open(manifest_path,'r') as load_f:
+def create_lod_from_manifest(manifest_path, directory):
+    with open(directory + manifest_path,'r') as load_f:
         files = json.load(load_f)
         for file in files:
-            create_lod(file["filename"], file["lodlevel"])
+            create_lod(directory + file["filename"], file["lodlevel"])
     
         
 args = get_args()
-create_lod_from_manifest(args.manifest)
+create_lod_from_manifest(args.manifest, args.directory)
