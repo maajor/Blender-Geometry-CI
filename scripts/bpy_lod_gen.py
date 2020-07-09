@@ -6,13 +6,11 @@ import argparse
 
 def get_args():
     parser = argparse.ArgumentParser()
-         
-    # get all script args
+
     _, all_arguments = parser.parse_known_args()
     double_dash_index = all_arguments.index('--')
     script_args = all_arguments[double_dash_index + 1: ]
-     
-    # add parser rules
+
     parser.add_argument('-m', '--manifest', help="manifest of mesh to process")
     parser.add_argument('-d', '--directory', help="relative directory")
     parsed_script_args, _ = parser.parse_known_args(script_args)
@@ -43,7 +41,6 @@ def create_lod_meshs(obj, level):
 def delete_scene_objects():
     for o in bpy.context.scene.objects:
         o.select_set(True)
-
     bpy.ops.object.delete()
     
 def create_lod(filename, lodlevel):
@@ -63,7 +60,6 @@ def create_lod_from_manifest(manifest_path, directory):
         files = json.load(load_f)
         for file in files:
             create_lod(directory + file["filename"], file["lodlevel"])
-    
         
 args = get_args()
 create_lod_from_manifest(args.manifest, args.directory)

@@ -1,0 +1,1 @@
+docker run --rm -v ${pwd}:/media/ nytimes/blender blender -b -P media/scripts/bpy_test_polycount.py -- -m 'geomanifest.json' -d "media/"

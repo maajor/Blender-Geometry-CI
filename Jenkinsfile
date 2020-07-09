@@ -6,6 +6,11 @@ pipeline {
                 powershell(". '.\\ci\\collect.ps1'") 
             }
         }
+        stage('Test') {
+            steps ('Polycount Test') {
+                powershell(". '.\\ci\\lod_gen.ps1'") 
+            }
+        }
         stage('Build') {
             steps ('LOD Generate') {
                 powershell(". '.\\ci\\lod_gen.ps1'") 
