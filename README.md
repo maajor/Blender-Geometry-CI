@@ -1,12 +1,12 @@
-# Blender-LOD-CI
+# Blender-Geometry-CI
 
-A proof-of-concept project to CI(continious integrate) lod meshs with blender.
-The CI pipeline runs on Jenkins, inside blender docker container, for the sake of scalability.
+A proof-of-concept framework for CI(continious integrate) of geometry with blender.
+The CI pipeline runs on Jenkins, inside blender docker container
 
 Pipeline has 4 steps:
-1. Collect all fbx files inside `geos` folder and write an manifest, with a python docker container.  
-2. Test if meshs' polycount have exceed budget.   
-3. Generate LOD meshs described in manifest with a blender docker.  
+1. Collect, find all fbx files inside `geos` folder and write an manifest, with a python docker container.  
+2. Test, run all test scripts under `bpy_scripts` folder over each fbx file, in a blender docker container. Here I add one script for test polycount density.
+3. Build, run all build scripts under `bpy_scripts` folder over each fbx file, in a blender docker container. Here I add one script for generate LOD meshs.  
 4. Add and commit everything newly created to git.  
 
 # Requirement
@@ -16,17 +16,54 @@ Pipeline has 4 steps:
 
 Note: You need to grant user access to jenkins workspace, usually at `C:\Program Files(x86)\Jenkins\workspace`, so that docker could write files into the workspace.  
 
-The project should work fine on Linux, but you need to tweak some batch under `/ci` folder as they are powershell scripts now.
+The project does not works on Linus, as CI script are written in PowerShell, but you could write a shell version.
 
 # To run
 
 Assuming Docker and Jenkins are installed.
-1. `git clone https://github.com/maajor/Blender-LOD-CI.git` clone this project to a local directory  
-2. Create a "Pipeline" item in Jenkins, set repo url to your local directory, and use Jenkinsfile for pipeline
-3. Run the pipeline
+1. fork this project to your repo url.  
+2. add a fbx file under `geos` folder and push.  
+3. create a "Pipeline" item in Jenkins, set repo url to your repo url, and use Jenkinsfile for pipeline.  
+4. run the pipeline.  
+5. generated mesh will be under your jenkins workspace, you could then push to git.
 
 Note that the blender docker is around 1GB and could be slow to download.
 
+# To write test and build script  
+
+
+### Test Script  
+
+for unit-test over geometry, template is like:  
+```
+import bpy
+from bpy_runner import blender_fbx_test
+
+@blender_fbx_test
+def main(parm1, parm2, ...):
+    # do anything in blender
+```
+
+name this script `test_***.py` and put it under `bpy_scripts` folder, pipeline will recognize and run it under test stage.  
+
+parameter could be specified in test scripts `ci/tests.ps1`  
+
+### Build Script  
+
+Different from unit-test, build script import the geometry, do some stuff, then export geometry under same filename.  Whereas test script does not export geometry.  
+for build over geometry, template is like:  
+```
+import bpy
+from bpy_runner import blender_fbx_build
+
+@blender_fbx_build
+def main(parm1, parm2, ...):
+    # do anything in blender
+```
+
+name this script `build_***.py` and put it under `bpy_scripts` folder, pipeline will recognize and run it under build stage.  
+
+parameter could be specified in test scripts `ci/builds.ps1`  
 
 # Reference
-[Blender in Docker: nytimes/blender](https://github.com/nytimes/rd-blender-docker)
+[Blender in Docker: nytimes/blender](https://github.com/nytimes/rd-blender-docker)  

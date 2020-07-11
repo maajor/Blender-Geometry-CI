@@ -2,22 +2,39 @@ pipeline {
     agent any
     stages {
         stage('Collect') {
-            steps ('Collect For LOD Gen') {
+            steps ('Collect All Mesh') {
                 powershell(". '.\\ci\\collect.ps1'") 
             }
         }
         stage('Test') {
-            steps ('Polycount Test') {
-                powershell(". '.\\ci\\lod_gen.ps1'") 
+            steps ('All Tests') {
+                catchError(buildResult: 'UNSTABLE', stageResult: 'UNSTABLE') {
+                    powershell(". '.\\ci\\tests.ps1'") 
+                }
+            }
+            post {
+                failure {
+                    // do some stuff such as sending mail
+                    echo currentStage.result
+                }
             }
         }
         stage('Build') {
-            steps ('LOD Generate') {
-                powershell(". '.\\ci\\lod_gen.ps1'") 
+            steps ('All Builds') {
+                catchError(buildResult: 'UNSTABLE', stageResult: 'UNSTABLE') {
+                    powershell(". '.\\ci\\builds.ps1'") 
+                }
+            }
+            post {
+                failure {
+                    // do some stuff such as sending mail
+                    echo currentBuild.result
+                }
             }
         }
         stage('Submit') {
             steps ('Submit') {
+                echo currentBuild.result
                 powershell(". '.\\ci\\commit.ps1'") 
             }
         }

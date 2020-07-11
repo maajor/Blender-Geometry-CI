@@ -1,1 +1,0 @@
-docker run --rm -v ${pwd}:/media/ nytimes/blender blender -b -P media/scripts/bpy_log_gen.py -- -m 'geomanifest.json' -d "media/"

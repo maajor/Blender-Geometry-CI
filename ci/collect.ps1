@@ -1,1 +1,1 @@
-docker run --rm -v ${pwd}:/media/ python:3 python media/scripts/collect_manifest.py -d 'media/'
+docker run --rm -v ${pwd}:/media/ python:3 python media/scripts/collect_manifest.py -d media
