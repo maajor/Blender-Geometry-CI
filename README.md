@@ -5,8 +5,8 @@ The CI pipeline runs on Jenkins, inside blender docker container
 
 Pipeline has 4 steps:
 1. Collect, find all fbx files inside `geos` folder and write an manifest, with a python docker container.  
-2. Test, run all test scripts under `bpy_scripts` folder over each fbx file, in a blender docker container. Here I add one script for test polycount density.
-3. Build, run all build scripts under `bpy_scripts` folder over each fbx file, in a blender docker container. Here I add one script for generate LOD meshs.  
+2. Test, run all test scripts under `tests` folder over each fbx file, in a blender docker container. Here I add one script for test polycount density.
+3. Build, run all build scripts under `builds` folder over each fbx file, in a blender docker container. Here I add one script for generate LOD meshs.  
 4. Add and commit everything newly created to git.  
 
 # Requirement
@@ -44,7 +44,7 @@ def main(parm1, parm2, ...):
     # do anything in blender
 ```
 
-name this script `test_***.py` and put it under `bpy_scripts` folder, pipeline will recognize and run it under test stage.  
+name this script `test_***.py` and put it under `tests` folder, pipeline will recognize and run it under test stage.  
 
 parameter could be specified in test scripts `ci/tests.ps1`  
 
@@ -61,7 +61,7 @@ def main(parm1, parm2, ...):
     # do anything in blender
 ```
 
-name this script `build_***.py` and put it under `bpy_scripts` folder, pipeline will recognize and run it under build stage.  
+name this script `build_***.py` and put it under `builds` folder, pipeline will recognize and run it under build stage.  
 
 parameter could be specified in test scripts `ci/builds.ps1`  
 
