@@ -67,5 +67,7 @@ name this script `build_***.py` and put it under `builds` folder, pipeline will 
 
 parameter could be specified in test scripts `ci/builds.ps1`  
 
+My Blog on this: [Build A Blender Geometry CI Pipeline |搭建一个Blender模型CI(持续集成)框架](http://ma-yidong.com/2020/07/11/build-a-blender-geometry-ci-pipeline/)
+
 # Reference
 [Blender in Docker: nytimes/blender](https://github.com/nytimes/rd-blender-docker)  
