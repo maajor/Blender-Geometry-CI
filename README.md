@@ -1,13 +1,15 @@
 # Blender-Geometry-CI
 
-A proof-of-concept framework for CI(continious integrate) of geometry with blender.
+A proof-of-concept framework for CI(continious integrate) pipeline of geometry with blender.
 The CI pipeline runs on Jenkins, inside blender docker container
+
+![stages](images/stages.png)
 
 Pipeline has 4 steps:
 1. Collect, find all fbx files inside `geos` folder and write an manifest, with a python docker container.  
 2. Test, run all test scripts under `tests` folder over each fbx file, in a blender docker container. Here I add one script for test polycount density.
 3. Build, run all build scripts under `builds` folder over each fbx file, in a blender docker container. Here I add one script for generate LOD meshs.  
-4. Add and commit everything newly created to git.  
+4. Submit, add and commit everything newly created to git.  
 
 # Requirement
 * Windows 10  
